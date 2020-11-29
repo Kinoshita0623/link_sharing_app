@@ -16,6 +16,14 @@ Map<String, String> createBaseHeader(){
   };
 }
 
+Map<String, String> createHeader({ String token }){
+  if(token !=null && token.isNotEmpty){
+    return createAuthHeader(token);
+  }else{
+    return createBaseHeader();
+  }
+}
+
 void toException(Response response){
   if(response.statusCode == 200){
     return;

@@ -8,48 +8,44 @@ import 'package:linksharingapp/api/page.dart';
 
 class NoteAPI{
 
-  final String token;
   final String baseUrl;
 
-  Map<String, String> _headers;
 
-  NoteAPI({ @required this.baseUrl, this.token }){
-    this._headers = createAuthHeader(token);
-  }
+  NoteAPI({ @required this.baseUrl });
 
-  Future<PageData<Note>> timeline({int page = 1}) async{
-    final response = await http.get('$baseUrl/api/notes?page=$page', headers: _headers);
+  Future<PageData<Note>> timeline({ @required String token, int page = 1}) async{
+    final response = await http.get('$baseUrl/api/notes?page=$page', headers: createAuthHeader(token));
     toException(response);
     return PageData<Note>.fromJson(jsonDecode(response.body), (m)=> Note.fromJson(m));
   }
 
-  Future<Note> create({ @required String url, @required String text, List<String> tags}) async{
+  Future<Note> create({ @required String token, @required String url, @required String text, List<String> tags}) async{
     final body = {
       'url': url, 'text': text, 'tags': tags
     };
     final j = json.encode(body);
     print(j);
-    final response = await http.post('$baseUrl/api/notes', headers: _headers, body: j);
+    final response = await http.post('$baseUrl/api/notes', headers: createHeader(token: token), body: j);
     toException(response);
     return Note.fromJson(jsonDecode(response.body));
   }
 
-  Future<int> delete(int noteId) async {
-    final response = await http.delete('$baseUrl/api/notes/$noteId', headers: _headers);
+  Future<int> delete(String token, int noteId) async {
+    final response = await http.delete('$baseUrl/api/notes/$noteId', headers: createHeader(token: token));
     toException(response);
     return noteId;
   }
 
-  Future<PageData<Note>> searchByTag(List<List<String>> tags, { int page = 1}) async {
+  Future<PageData<Note>> searchByTag(List<List<String>> tags, { String token, int page = 1}) async {
     final conditions = jsonEncode({ 'conditions' :tags});
     print(conditions);
-    final response = await http.post('$baseUrl/api/notes/search-by-tag?page=$page', headers: _headers, body: conditions);
+    final response = await http.post('$baseUrl/api/notes/search-by-tag?page=$page', headers: createHeader(token: token), body: conditions);
     toException(response);
     return PageData<Note>.fromJson(jsonDecode(response.body), (m)=>Note.fromJson(m));
   }
 
-  Future<Note> get(int noteId) async{
-    final response = await http.get('$baseUrl/api/notes/$noteId', headers: _headers);
+  Future<Note> get(int noteId, { String token }) async{
+    final response = await http.get('$baseUrl/api/notes/$noteId', headers:createHeader(token: token));
     toException(response);
     return Note.fromJson(jsonDecode(response.body));
   }
