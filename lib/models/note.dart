@@ -20,7 +20,7 @@ class Note{
       return null;
     }
     List<dynamic> tagsJson = json['tags'];
-    List<Tag> tags = tagsJson.map((tag) => Tag.fromJson(tag));
+    List<Tag> tags = tagsJson.map((tag) => Tag.fromJson(tag)).toList();
     final createdAt = DateTime.parse(json['created_at']);
     final updatedAt = DateTime.parse(json['updated_at']);
     return Note(
@@ -54,6 +54,11 @@ class Note{
       tags.hashCode ^
       createdAt.hashCode ^
       updatedAt.hashCode;
+
+  @override
+  String toString() {
+    return 'Note{summary: $summary, author: $author, text: $text, tags: $tags, createdAt: $createdAt, updatedAt: $updatedAt}';
+  }
 
 /*Map<String, dynamic> toJson()=>{
     'summary': summary

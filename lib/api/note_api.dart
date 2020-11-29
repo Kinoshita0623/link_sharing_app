@@ -24,9 +24,12 @@ class NoteAPI{
   }
 
   Future<Note> create({ @required String url, @required String text, List<String> tags}) async{
-    final response = await http.post('$baseUrl/api/notes', headers: _headers, body: {
-      'url': url, 'text': text, tags: tags
-    });
+    final body = {
+      'url': url, 'text': text, 'tags': tags
+    };
+    final j = json.encode(body);
+    print(j);
+    final response = await http.post('$baseUrl/api/notes', headers: _headers, body: j);
     toException(response);
     return Note.fromJson(jsonDecode(response.body));
   }
@@ -38,9 +41,9 @@ class NoteAPI{
   }
 
   Future<PageData<Note>> searchByTag(List<List<String>> tags, { int page = 1}) async {
-    final response = await http.post('$baseUrl/api/notes/search-by-tag?page=$page', headers: _headers, body: {
-      'conditions': tags
-    });
+    final conditions = jsonEncode({ 'conditions' :tags});
+    print(conditions);
+    final response = await http.post('$baseUrl/api/notes/search-by-tag?page=$page', headers: _headers, body: conditions);
     toException(response);
     return PageData<Note>.fromJson(jsonDecode(response.body), (m)=>Note.fromJson(m));
   }
