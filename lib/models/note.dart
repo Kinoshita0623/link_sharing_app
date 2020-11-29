@@ -34,7 +34,28 @@ class Note{
     );
   }
 
-  /*Map<String, dynamic> toJson()=>{
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Note &&
+          runtimeType == other.runtimeType &&
+          summary == other.summary &&
+          author == other.author &&
+          text == other.text &&
+          tags == other.tags &&
+          createdAt == other.createdAt &&
+          updatedAt == other.updatedAt;
+
+  @override
+  int get hashCode =>
+      summary.hashCode ^
+      author.hashCode ^
+      text.hashCode ^
+      tags.hashCode ^
+      createdAt.hashCode ^
+      updatedAt.hashCode;
+
+/*Map<String, dynamic> toJson()=>{
     'summary': summary
   };*/
 }
