@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:http/http.dart';
 import 'package:linksharingapp/api/errors.dart';
 
@@ -17,7 +19,8 @@ void toException(Response response){
     throw AuthenticationException();
   }else if(response.statusCode == 422){
     print(response.body);
-    throw ValidationException();
+    Map<String, dynamic> json = jsonDecode(response.body);
+    throw ValidationException.fromJson(json);
   }else if(response.statusCode >= 500 && response.statusCode < 600){
     print(response.body);
     throw InternalServerException();
