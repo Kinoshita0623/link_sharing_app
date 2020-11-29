@@ -4,13 +4,17 @@ import 'package:http/http.dart';
 import 'package:linksharingapp/api/errors.dart';
 
 Map<String, String> createAuthHeader(String token){
+  final base = createBaseHeader();
+  base['Authorization'] = 'Bearer $token';
+  return base;
+}
+
+Map<String, String> createBaseHeader(){
   return {
-    'Authorization': 'Bearer $token',
     'Accept': 'application/json',
     "Content-Type": "application/json"
   };
 }
-
 
 void toException(Response response){
   if(response.statusCode == 200){
