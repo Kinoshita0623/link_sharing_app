@@ -6,13 +6,14 @@ import 'package:linksharingapp/models/user.dart';
 
 class Note{
 
+  final int id;
   final Summary summary;
   final User author;
   final String text;
   final List<Tag> tags;
   final DateTime createdAt;
   final DateTime updatedAt;
-  Note({@required this.summary, @required this.author, @required this.text, this.tags, this.createdAt, this.updatedAt});
+  Note({@required this.id, @required this.summary, @required this.author, @required this.text, this.tags, this.createdAt, this.updatedAt});
 
 
   factory Note.fromJson(Map<String, dynamic> json){
@@ -24,6 +25,7 @@ class Note{
     final createdAt = DateTime.parse(json['created_at']);
     final updatedAt = DateTime.parse(json['updated_at']);
     return Note(
+      id: json['id'],
       summary: Summary.fromJson(json['summary']),
       author: User.fromJson(json['author']),
       text: json['text'],
@@ -38,6 +40,7 @@ class Note{
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is Note &&
+          id == other.id &&
           runtimeType == other.runtimeType &&
           summary == other.summary &&
           author == other.author &&
@@ -48,6 +51,7 @@ class Note{
 
   @override
   int get hashCode =>
+      id ^
       summary.hashCode ^
       author.hashCode ^
       text.hashCode ^
@@ -57,7 +61,7 @@ class Note{
 
   @override
   String toString() {
-    return 'Note{summary: $summary, author: $author, text: $text, tags: $tags, createdAt: $createdAt, updatedAt: $updatedAt}';
+    return 'Note{id: $id, summary: $summary, author: $author, text: $text, tags: $tags, createdAt: $createdAt, updatedAt: $updatedAt}';
   }
 
 /*Map<String, dynamic> toJson()=>{

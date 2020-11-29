@@ -1,6 +1,4 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:linksharingapp/api/errors.dart';
 import 'package:linksharingapp/api/note_api.dart';
 import 'package:linksharingapp/api/page.dart';
 import 'package:linksharingapp/models/note.dart';
@@ -8,10 +6,8 @@ import 'package:linksharingapp/models/note.dart';
 void main(){
 
   NoteAPI api;
-  NoteAPI noAuthAPI;
   setUp((){
     api = NoteAPI(baseUrl: 'http://homestead.test', token: '13|jSAUmpNlJ5qUAOPhiiO6gAMiBEBtFWG7DDhNl9xI');
-    noAuthAPI = NoteAPI(baseUrl: 'http://homestead.test');
 
   });
 
@@ -61,9 +57,12 @@ void main(){
 
   });
 
-  test('投稿テスト', () async {
-    final res = await api.create(url: 'https://tech.mokelab.com/CrossPlatform/Flutter/http/post.html', text: 'create by Flutter Test');
-    print(res);
+  test('投稿テスト＆削除', () async {
+    Note res = await api.create(url: 'https://tech.mokelab.com/CrossPlatform/Flutter/http/post.html', text: 'create by Flutter Test');
     expect(res, isNotNull);
+    print(res);
+
+    final deleteResponse = await api.delete(res.id);
+    expect(res.id, deleteResponse);
   });
 }

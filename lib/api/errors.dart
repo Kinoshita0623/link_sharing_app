@@ -14,3 +14,7 @@ class ValidationException implements Exception{
 class InternalServerException implements Exception{
   String toString()=>"InternalServerException";
 }
+
+class NotFoundException implements Exception{
+  String toString()=>"NotFoundException";
+}
