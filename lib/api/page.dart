@@ -25,7 +25,9 @@ class PageData<T>{
   });
 
   factory PageData.fromJson(Map<String, dynamic> json, ParseData<T> dataParser){
-    List<T> data = (json['data'] as List<Map<String, dynamic>>).map((e) => dataParser(e));
+    List list = json['data'];
+
+    List<T> data = list.map((j)=>dataParser(j)).toList();
     PageData<T> page = PageData(
       currentPage: json['current_page'],
       data: data,
@@ -39,6 +41,36 @@ class PageData<T>{
     );
     return page;
   }
-  
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is PageData &&
+          runtimeType == other.runtimeType &&
+          currentPage == other.currentPage &&
+          data == other.data &&
+          firstPageUrl == other.firstPageUrl &&
+          from == other.from &&
+          nextPageUrl == other.nextPageUrl &&
+          path == other.path &&
+          perPage == other.perPage &&
+          prevPageUrl == other.prevPageUrl &&
+          to == other.to;
+
+  @override
+  int get hashCode =>
+      currentPage.hashCode ^
+      data.hashCode ^
+      firstPageUrl.hashCode ^
+      from.hashCode ^
+      nextPageUrl.hashCode ^
+      path.hashCode ^
+      perPage.hashCode ^
+      prevPageUrl.hashCode ^
+      to.hashCode;
+
+  @override
+  String toString() {
+    return 'PageData{currentPage: $currentPage, data: $data, firstPageUrl: $firstPageUrl, from: $from, nextPageUrl: $nextPageUrl, path: $path, perPage: $perPage, prevPageUrl: $prevPageUrl, to: $to}';
+  }
 }

@@ -43,9 +43,41 @@ class User {
     );
   }
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is User &&
+          runtimeType == other.runtimeType &&
+          id == other.id &&
+          email == other.email &&
+          userName == other.userName &&
+          avatarUrl == other.avatarUrl &&
+          isFollower == other.isFollower &&
+          isFollowing == other.isFollowing &&
+          favoritedNotesCount == other.favoritedNotesCount &&
+          followersCount == other.followersCount &&
+          followingsCount == other.followingsCount &&
+          notesCount == other.notesCount;
 
+  @override
+  int get hashCode =>
+      id.hashCode ^
+      email.hashCode ^
+      userName.hashCode ^
+      avatarUrl.hashCode ^
+      isFollower.hashCode ^
+      isFollowing.hashCode ^
+      favoritedNotesCount.hashCode ^
+      followersCount.hashCode ^
+      followingsCount.hashCode ^
+      notesCount.hashCode;
 
-  /*Map<String, dynamic> toJson() =>
+  @override
+  String toString() {
+    return 'User{id: $id, email: $email, userName: $userName, avatarUrl: $avatarUrl, isFollower: $isFollower, isFollowing: $isFollowing, favoritedNotesCount: $favoritedNotesCount, followersCount: $followersCount, followingsCount: $followingsCount, notesCount: $notesCount}';
+  }
+
+/*Map<String, dynamic> toJson() =>
       {
         'id': this.id,
         'email': this.email,

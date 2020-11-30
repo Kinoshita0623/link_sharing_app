@@ -19,7 +19,26 @@ class Summary{
       description = json['description']
   ;
 
-  /*Map<String, dynamic> toJson() => {
+  @override
+  String toString() {
+    return 'Summary{url: $url, title: $title, imageUrl: $imageUrl, description: $description}';
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Summary &&
+          runtimeType == other.runtimeType &&
+          url == other.url &&
+          title == other.title &&
+          imageUrl == other.imageUrl &&
+          description == other.description;
+
+  @override
+  int get hashCode =>
+      url.hashCode ^ title.hashCode ^ imageUrl.hashCode ^ description.hashCode;
+
+/*Map<String, dynamic> toJson() => {
     'url': url,
     'title': title,
     'imageUrl': imageUrl,
