@@ -17,6 +17,10 @@ class Account{
     );
   }
 
+  Account copyWith({ User user }){
+    return Account(token: this.token, user: user);
+  }
+
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
