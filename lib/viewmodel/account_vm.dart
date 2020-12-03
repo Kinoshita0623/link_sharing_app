@@ -28,14 +28,11 @@ class AccountViewModel extends ChangeNotifier{
     this._userAPI = userAPI;
   }
 
-  void login({ @required String email, @required String password }){
-    _accountAPI.login(email: email, password: password)
-        .then((value){
-          _updateAccount(value);
-        })
-        .catchError((error){
-          _errors.add(error);
-        });
+  Future<Account> login({ @required String email, @required String password }) async{
+    final ac = await  _accountAPI.login(email: email, password: password);
+    _updateAccount(ac);
+    return ac;
+
   }
 
   void logout(){
@@ -43,14 +40,12 @@ class AccountViewModel extends ChangeNotifier{
   }
 
 
-  void createAccount({ String email, String userName, String password, String passwordConfirmation}){
-    _accountAPI.register(email: email, userName: userName, password: password, passwordConfirmation: passwordConfirmation)
-        .then((value){
-          _updateAccount(value);
-        })
-        .catchError((error){
-          _errors.add(error);
-        });
+  Future<Account> createAccount({ String email, String userName, String password, String passwordConfirmation}) async {
+    final account = await _accountAPI.register(email: email, userName: userName, password: password, passwordConfirmation: passwordConfirmation);
+    _updateAccount(account);
+
+    return account;
+
   }
 
   void toggleFollow(User user){
